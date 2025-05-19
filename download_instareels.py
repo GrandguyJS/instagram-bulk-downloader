@@ -1,6 +1,4 @@
-reels_text = """Day 2
-https://www.instagram.com/reel/DJVUrydvNot/?igsh=em1rNHVrODJsZnFn
-"""
+reels_text = """  """
 
 # Download all links    
 import re
