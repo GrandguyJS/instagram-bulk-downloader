@@ -13,9 +13,10 @@ output_dir = os.path.join(os.getenv("DOWNLOAD_PATH"), datetime.now().strftime("%
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-def download_reels(links): # Downloads all reels as .mov files
+def download_reels(links): # Downloads all reels as .mov filesfor link in links:
+    links = [link for link in links if not os.path.exists(os.path.join(output_dir, link.split("/reel/")[1].split("/")[0]+".mov"))]
     ydl_opts = {
-        "outtmpl": f"{output_dir}/%(id)s1.%(ext)s",
+        "outtmpl": f"{output_dir}/%(id)s.%(ext)s",
         "format": "bestvideo+bestaudio/best",
         "postprocessors": [{
             "key": "FFmpegVideoConvertor",
