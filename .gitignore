@@ -1,0 +1,5 @@
+__pycache__/
+secret.env
+cookies.txt
+secret.env
+.DS_Store

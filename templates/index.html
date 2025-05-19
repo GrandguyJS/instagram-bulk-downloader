@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instagram Reels Downloader</title>
+</head>
+<body>
+    <p>{{ amount }}</p>
+    <div>
+        <input type="text" name="reel_url" placeholder="Enter Instagram Reel URL" required>
+        <button type="submit" onclick="submit()">Download</button>
+    </div>
+    <script>
+        function submit() {
+            const urlInput = document.getElementById('reel_url');
+            const reelUrl = urlInput.value;
+            console.log(reelUrl);
+            
+            try {
+                fetch('/download', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        'reel_url': reelUrl
+                    })
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to start download');
+            }
+        }
+    </script>
+</body>
+</html>
