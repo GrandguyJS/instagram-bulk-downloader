@@ -1,11 +1,9 @@
 reels_text = """
 """
 
-# Download all links    
 import re
 import os
 import yt_dlp
-from datetime import datetime
 
 from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(__file__), "secret.env"))
