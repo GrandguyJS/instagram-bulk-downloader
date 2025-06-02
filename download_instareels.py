@@ -1,4 +1,5 @@
-reels_text = """  """
+reels_text = """
+"""
 
 # Download all links    
 import re
@@ -9,12 +10,16 @@ from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(__file__), "secret.env"))
 
-output_dir = os.path.join(os.getenv("DOWNLOAD_PATH"), datetime.now().strftime("%d.%m.%Y"))
+output_dir = os.path.join(os.getenv("DOWNLOAD_PATH"))
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
 def download_reels(links): # Downloads all reels as .mov filesfor link in links:
     links = [link for link in links if not os.path.exists(os.path.join(output_dir, link.split("/reel/")[1].split("/")[0]+".mov"))]
+    links_failed = open(os.path.join(os.path.dirname(__file__), "failed.txt"), "r").readlines()
+    links.extend([link for link in links_failed if not os.path.exists(os.path.join(output_dir, link.split("/reel/")[1].split("/")[0]+".mov"))])
+    links = list(set(links))
+
     ydl_opts = {
         "outtmpl": f"{output_dir}/%(id)s.%(ext)s",
         "format": "bestvideo+bestaudio/best",
@@ -31,6 +36,8 @@ def download_reels(links): # Downloads all reels as .mov filesfor link in links:
             ydl.download(links)
     except Exception as e:
         print(e)
+    # Clear failed.txt
+    open(os.path.join(os.path.dirname(__file__), "failed.txt"), 'w').close()
     for link in links:
         if not os.path.exists(os.path.join(output_dir, link.split("/reel/")[1].split("/")[0]+".mov")):
             with open(os.path.join(os.path.dirname(__file__), "failed.txt"), "a") as f:
